@@ -25,46 +25,6 @@ const PartnerController = {
      * @param {Request} req
      * @param {Response} res
     */
-    getDashboardForPartner: async function(req, res) {
-        try {
-            const id = req.params.id;
-            const days = parseInt(req.query.days ?? "7") ?? 7;
-            if(!Types.ObjectId.isValid(id)) throw "Invalid id";
-            
-            const currentDate = new Date();
-            const previousDate = new Date(currentDate.getTime() - (days*24*60*60*1000));
-            const transactions = await TransactionModel.aggregate([
-                {
-                    $match: {
-                        _id: id,
-                        createdOn: { $gte: previousDate }
-                    }
-                },
-                {
-                    $group: {
-                        _id: null,
-                        sales: { $sum: "$amount" }
-                    }
-                },
-                {
-                    $project: {
-                        _id: 0,
-                        sales: 1
-                    }
-                }
-            ]);
-
-            return ApiResponse.success(res, transactions[0] ?? null);
-        }
-        catch(ex) {
-            return ApiResponse.error(res, ex.toString());
-        }
-    },
-
-    /**
-     * @param {Request} req
-     * @param {Response} res
-    */
     getSubPartners: async function(req, res) {
         try {
             const id = req.params.id;

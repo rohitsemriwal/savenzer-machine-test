@@ -6,6 +6,9 @@ ApiRoutes.use("/product", ProductRoutes);
 const PartnerRoutes = require('./routes/partner_routes');
 ApiRoutes.use("/partner", PartnerRoutes);
 
+const AdminRoutes = require('./routes/admin_routes');
+ApiRoutes.use("/admin", AdminRoutes);
+
 const PaymentRoutes = require('./routes/payment_routes');
 ApiRoutes.use("/payment", PaymentRoutes);
 

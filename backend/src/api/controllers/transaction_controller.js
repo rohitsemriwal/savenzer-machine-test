@@ -9,9 +9,10 @@ const TransactionController = {
      * @param {Request} req
      * @param {Response} res
     */
-    getTransactions: async function(req, res) {
+    getTransactionsForPartner: async function(req, res) {
         try {
-            const transactions = await TransactionModel.find();
+            const partnerId = req.params.partnerId;
+            const transactions = await TransactionModel.find({ partnerId: partnerId });
             return ApiResponse.success(res, transactions);
         }
         catch(ex) {
